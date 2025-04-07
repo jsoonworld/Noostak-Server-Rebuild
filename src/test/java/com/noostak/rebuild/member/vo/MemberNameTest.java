@@ -46,16 +46,16 @@ class MemberNameTest {
         @ParameterizedTest
         @DisplayName("이름에 특수문자가 포함된 경우 예외가 발생한다.")
         @CsvSource({
-                "jsoon@world",
-                "jsoon#world",
-                "jsoon$world",
-                "jsoon%world",
-                "jsoon^world",
-                "jsoon&world",
-                "jsoon*world",
-                "jsoon(world",
-                "jsoon)world",
-                "jsoon-world"
+                "jsoon@worl",
+                "jsoon#word",
+                "jsoon$wold",
+                "jsoon%wrld",
+                "jsoon^orld",
+                "jsoon&orld",
+                "jsoo*world",
+                "json(world",
+                "json)world",
+                "joon-world"
         })
         void nameContainsSpecialCharacters(String invalidName) {
             assertThatThrownBy(() -> MemberName.from(invalidName))

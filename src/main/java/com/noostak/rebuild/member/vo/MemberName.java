@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 public class MemberName {
 
     private static final int MAX_LENGTH = 10;
+    private static final String SPECIAL_LETTERS = ".*[~`!@#$%^&*()\\-_=+\\[{\\]}\\\\|;:'\",<.>/?].*";
 
     private final String value;
 
@@ -31,6 +32,7 @@ public class MemberName {
     private void validate(String value) {
         validateNotNullOrBlank(value);
         validateLength(value);
+        validateCharacter(value);
     }
 
     private void validateNotNullOrBlank(String value) {
@@ -46,6 +48,12 @@ public class MemberName {
     private void validateLength(String value) {
         if (value.length() > MAX_LENGTH) {
             throw new IllegalArgumentException("이름은 10자를 초과할 수 없습니다.");
+        }
+    }
+
+    private void validateCharacter(String value) {
+        if (value.matches(SPECIAL_LETTERS)) {
+            throw new IllegalArgumentException("특수문자는 이름 구성에 포함시킬 수 없습니다.");
         }
     }
 }
