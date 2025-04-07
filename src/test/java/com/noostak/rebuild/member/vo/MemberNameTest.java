@@ -45,7 +45,7 @@ class MemberNameTest {
 
         @ParameterizedTest
         @DisplayName("이름에 특수문자가 포함된 경우 예외가 발생한다.")
-        @CsvSource({
+        @ValueSource(strings = {
                 "jsoon@worl",
                 "jsoon#word",
                 "jsoon$wold",
@@ -62,6 +62,23 @@ class MemberNameTest {
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageContaining("특수문자는 이름 구성에 포함시킬 수 없습니다.");
         }
+
+        @ParameterizedTest
+        @DisplayName("이름에 허용되지 않은 문자(한글, 영문 외 언어)가 포함된 경우 예외가 발생한다.")
+        @ValueSource(strings = {
+                "张伟",
+                "山田太郎",
+                "محمد",
+                "Алексей",
+                "Δημήτρης",
+                "𓀀",
+        })
+        void nameContainsNonKoreanEnglishCharacters(String invalidName) {
+            assertThatThrownBy(() -> MemberName.from(invalidName))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessageContaining("허용되지 않은 문자가 포함되어 있습니다.");
+        }
+
     }
 
     @Nested
