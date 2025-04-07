@@ -3,7 +3,7 @@ package com.noostak.rebuild.member.vo;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -15,11 +15,8 @@ class MemberNameTest {
     class FailureCases{
 
         @ParameterizedTest
-        @DisplayName("이름이 공백으로만 이루어진 경우 실패한다.")
-        @CsvSource({
-                "",
-                " ",
-        })
+        @DisplayName("이름이 공백 문자로만 이루어진 경우 실패한다.")
+        @ValueSource(strings = {" ", "   ", "\t", "\n"})
         void nameIsBlank(String invalidName) {
             assertThrows(IllegalArgumentException.class, () -> MemberName.of(invalidName));
         }
