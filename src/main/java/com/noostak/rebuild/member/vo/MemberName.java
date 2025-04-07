@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 public class MemberName {
 
     private static final int MAX_LENGTH = 10;
-    private static final String SPECIAL_LETTERS = ".*[~`!@#$%^&*()\\-_=+\\[{\\]}\\\\|;:'\",<.>/?].*";
+    private static final String SPECIAL_CHAR_PATTERN = ".*[~`!@#$%^&*()\\-_=+\\[{\\]}\\\\|;:'\",<.>/?].*";
 
     private final String value;
 
@@ -52,7 +52,7 @@ public class MemberName {
     }
 
     private void validateCharacter(String value) {
-        if (value.matches(SPECIAL_LETTERS)) {
+        if (value.matches(SPECIAL_CHAR_PATTERN)) {
             throw new IllegalArgumentException("특수문자는 이름 구성에 사용될 수 없습니다.");
         }
 
