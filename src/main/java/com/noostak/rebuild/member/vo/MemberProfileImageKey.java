@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 public class MemberProfileImageKey {
 
     private static final String DEFAULT_KEY = "default/profile.png";
-    public static final MemberProfileImageKey DEFAULT = new MemberProfileImageKey(DEFAULT_KEY, false);
+    public static final MemberProfileImageKey DEFAULT = new MemberProfileImageKey(DEFAULT_KEY, false); // 검증 생략
 
     private final String value;
 
@@ -17,13 +17,11 @@ public class MemberProfileImageKey {
     }
 
     private MemberProfileImageKey(String value) {
-        this(value, true);
+        validate(value);
+        this.value = value;
     }
 
-    private MemberProfileImageKey(String value, boolean validate) {
-        if (validate) {
-            validate(value);
-        }
+    private MemberProfileImageKey(String value, boolean skipValidation) {
         this.value = value;
     }
 
@@ -35,7 +33,7 @@ public class MemberProfileImageKey {
         if (value == null || value.isBlank()) {
             return DEFAULT;
         }
-        return new MemberProfileImageKey(value);
+        return from(value);
     }
 
     public String value() {
@@ -46,9 +44,21 @@ public class MemberProfileImageKey {
         return DEFAULT_KEY.equals(this.value);
     }
 
-    private void validate(String value) {
-        if (value == null || value.isBlank()) {
-            throw new IllegalArgumentException("프로필 이미지 키는 null 또는 빈 문자열일 수 없습니다.");
+    private static void validate(String value) {
+        validateNotNull(value);
+        validateNotBlank(value);
+    }
+
+    private static void validateNotNull(String value) {
+        if (value == null) {
+            throw new IllegalArgumentException("프로필 이미지 키는 null 일 수 없습니다.");
         }
     }
+
+    private static void validateNotBlank(String value) {
+        if (value.isBlank()) {
+            throw new IllegalArgumentException("프로필 이미지 키는 빈 문자열 일 수 없습니다.");
+        }
+    }
+
 }
