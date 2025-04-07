@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -35,12 +36,31 @@ class MemberNameTest {
 
         @ParameterizedTest
         @DisplayName("이름이 10자를 초과하는 경우 예외가 발생한다.")
-        @ValueSource(strings = {"0123467891", "01234567890123456789", "한글과영문혼합길이초과abcde"})
-        void nameLengthExceeded() {
-            String invalidName = "01234567891";
+        @ValueSource(strings = {"01234567891", "01234567890123456789", "한글과영문혼합길이초과abcde"})
+        void nameLengthExceeded(String invalidName) {
             assertThatThrownBy(() -> MemberName.from(invalidName))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageContaining("이름은 10자를 초과할 수 없습니다.");
+        }
+
+        @ParameterizedTest
+        @DisplayName("이름에 특수문자가 포함된 경우 예외가 발생한다.")
+        @CsvSource({
+                "jsoon@world",
+                "jsoon#world",
+                "jsoon$world",
+                "jsoon%world",
+                "jsoon^world",
+                "jsoon&world",
+                "jsoon*world",
+                "jsoon(world",
+                "jsoon)world",
+                "jsoon-world"
+        })
+        void nameContainsSpecialCharacters(String invalidName) {
+            assertThatThrownBy(() -> MemberName.from(invalidName))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessageContaining("특수문자는 이름 구성에 포함시킬 수 없습니다.");
         }
     }
 
