@@ -24,5 +24,17 @@ class MemberProfileImageKeyTest {
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageContaining("프로필 이미지 키는 null 일 수 없습니다.");
         }
+
+        @Test
+        @DisplayName("프로필 이미지 키가 빈 문자열인 경우 예외가 발생한다.")
+        void emptyKey() {
+            // given
+            String key = "";
+
+            // when & then
+            assertThatThrownBy(() -> MemberProfileImageKey.from(key))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessageContaining("프로필 이미지 키는 빈 문자열 일 수 없습니다.");
+        }
     }
 }
