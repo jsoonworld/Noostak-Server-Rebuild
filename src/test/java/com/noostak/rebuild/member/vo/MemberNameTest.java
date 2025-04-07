@@ -2,6 +2,7 @@ package com.noostak.rebuild.member.vo;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -21,6 +22,14 @@ class MemberNameTest {
             assertThatThrownBy(() -> MemberName.from(invalidName))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageContaining("이름은 공백으로만 구성될 수 없습니다.");
+        }
+
+        @Test
+        @DisplayName("이름이 null인 경우 예외가 발생한다.")
+        void nameIsNull() {
+            assertThatThrownBy(() -> MemberName.from(null))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessageContaining("이름은 null 일 수 없습니다.");
         }
     }
 }
