@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 @DisplayName("멤버 이름 테스트")
 class MemberNameTest {
@@ -15,10 +15,12 @@ class MemberNameTest {
     class FailureCases{
 
         @ParameterizedTest
-        @DisplayName("이름이 공백 문자로만 이루어진 경우 실패한다.")
+        @DisplayName("이름이 공백 문자로만 이루어진 경우 예외가 발생한다.")
         @ValueSource(strings = {" ", "   ", "\t", "\n"})
         void nameIsBlank(String invalidName) {
-            assertThrows(IllegalArgumentException.class, () -> MemberName.of(invalidName));
+            assertThatThrownBy(() -> MemberName.from(invalidName))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessageContaining("이름은 공백으로만 구성될 수 없습니다.");
         }
     }
 }

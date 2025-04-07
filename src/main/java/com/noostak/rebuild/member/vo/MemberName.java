@@ -1,15 +1,24 @@
 package com.noostak.rebuild.member.vo;
 
+import jakarta.persistence.Embeddable;
+import lombok.EqualsAndHashCode;
+
+@Embeddable
+@EqualsAndHashCode
 public class MemberName {
 
-    private String value;
+    private final String value;
+
+    protected MemberName() {
+        this.value = null;
+    }
 
     private MemberName(String value) {
         validate(value);
         this.value = value;
     }
 
-    public static MemberName of(String value) {
+    public static MemberName from(String value) {
         return new MemberName(value);
     }
 
@@ -19,7 +28,11 @@ public class MemberName {
 
     private void validateBlank(String value) {
         if (value.isBlank()) {
-            throw new IllegalArgumentException("이름은 공백일 수 없습니다.");
+            throw new IllegalArgumentException("이름은 공백으로만 구성될 수 없습니다.");
         }
+    }
+
+    public String value() {
+        return value;
     }
 }
