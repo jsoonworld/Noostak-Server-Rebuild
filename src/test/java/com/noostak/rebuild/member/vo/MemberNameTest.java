@@ -31,5 +31,14 @@ class MemberNameTest {
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageContaining("이름은 null 일 수 없습니다.");
         }
+
+        @Test
+        @DisplayName("이름이 10자를 초과하는 경우 예외가 발생한다.")
+        void nameLengthExceeded() {
+            String invalidName = "01234567891";
+            assertThatThrownBy(() -> MemberName.from(invalidName))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessageContaining("이름은 10자를 초과할 수 없습니다.");
+        }
     }
 }
