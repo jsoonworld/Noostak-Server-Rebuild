@@ -16,13 +16,30 @@ class MemberAccountStatusTest {
 
         @ParameterizedTest
         @DisplayName("존재하지 않는 상태값으로 조회 시 예외가 발생한다")
-        @ValueSource(strings = {"DEACTIVATED", "BLOCKED", "SLEEP", "탈퇴", " "})
+        @ValueSource(strings = {"DEACTIVATED", "BLOCKED", "SLEEP", "탈퇴"})
         void from_InvalidStatus_ThrowsException(String invalidStatus) {
             assertThatThrownBy(() -> MemberAccountStatus.from(invalidStatus))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageContaining("존재하지 않는 계정 상태입니다");
         }
 
+        @ParameterizedTest
+        @DisplayName("공백 또는 null 상태값 입력 시 예외가 발생한다")
+        @ValueSource(strings = {" ", "  ", "\n", "\t"})
+        void from_BlankStatus_ThrowsException(String blankStatus) {
+            assertThatThrownBy(() -> MemberAccountStatus.from(blankStatus))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessageContaining("계정 상태는 공백일 수 없습니다.");
+        }
+
+        @ParameterizedTest
+        @DisplayName("null 입력 시 예외가 발생한다")
+        @ValueSource(strings = {""})
+        void from_Null_ThrowsException() {
+            assertThatThrownBy(() -> MemberAccountStatus.from(null))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessageContaining("계정 상태는 null 일 수 없습니다.");
+        }
     }
 
     @Nested
@@ -35,6 +52,17 @@ class MemberAccountStatusTest {
         void from_ValidStatus_ReturnsEnum(String input) {
             MemberAccountStatus status = MemberAccountStatus.from(input);
             assertThat(status.name()).isEqualTo(input.toUpperCase());
+        }
+
+        @ParameterizedTest
+        @DisplayName("isActive(), isInactive() 메서드가 정확하게 동작한다")
+        @ValueSource(strings = {"ACTIVE", "INACTIVE"})
+        void statusCheckMethodsWorkCorrectly(String input) {
+            MemberAccountStatus status = MemberAccountStatus.from(input);
+
+            boolean isActiveInput = input.equalsIgnoreCase("ACTIVE");
+            assertThat(status.isActive()).isEqualTo(isActiveInput);
+            assertThat(status.isInactive()).isEqualTo(!isActiveInput);
         }
     }
 }
