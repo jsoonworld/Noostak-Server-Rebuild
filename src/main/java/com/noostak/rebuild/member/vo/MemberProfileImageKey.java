@@ -27,12 +27,16 @@ public class MemberProfileImageKey {
     }
 
     private void validate(String value) {
-        validateNotNull(value);
+        validateNotNullOrBlank(value);
     }
 
-    private void validateNotNull(String value) {
+    private void validateNotNullOrBlank(String value) {
         if (value == null) {
             throw new IllegalArgumentException("프로필 이미지 키는 null 일 수 없습니다.");
+        }
+
+        if (value.isBlank()) {
+            throw new IllegalArgumentException("프로필 이미지 키는 빈 문자열 일 수 없습니다.");
         }
     }
 }
