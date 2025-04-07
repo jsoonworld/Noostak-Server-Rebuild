@@ -53,15 +53,15 @@ public class MemberName {
 
     private void validateCharacter(String value) {
         if (value.matches(SPECIAL_LETTERS)) {
-            throw new IllegalArgumentException("특수문자는 이름 구성에 포함될 수 없습니다.");
+            throw new IllegalArgumentException("특수문자는 이름 구성에 사용될 수 없습니다.");
         }
 
-        value.codePoints()
-                .filter(this::isInvalidCharacter)
-                .findFirst()
-                .ifPresent(cp -> {
-                    throw new IllegalArgumentException("허용되지 않은 문자가 포함되어 있습니다.");
-                });
+        for (int cp : value.codePoints().toArray()) {
+            if (isInvalidCharacter(cp)) {
+                String invalidChar = new String(Character.toChars(cp));
+                throw new IllegalArgumentException("이름에 허용되지 않은 문자(" + invalidChar + ")가 포함되어 있습니다.");
+            }
+        }
     }
 
     private boolean isInvalidCharacter(int cp) {
@@ -77,7 +77,14 @@ public class MemberName {
     }
 
     private boolean isEmoji(int cp) {
-        return (cp >= 0x1F300 && cp <= 0x1FAFF) || (cp >= 0x2600 && cp <= 0x26FF);
+        return (cp >= 0x1F600 && cp <= 0x1F64F)
+                || (cp >= 0x1F300 && cp <= 0x1F5FF)
+                || (cp >= 0x1F680 && cp <= 0x1F6FF)
+                || (cp >= 0x2600 && cp <= 0x26FF)
+                || (cp >= 0x2700 && cp <= 0x27BF)
+                || (cp >= 0xFE00 && cp <= 0xFE0F)
+                || (cp >= 0x1F900 && cp <= 0x1F9FF)
+                || (cp >= 0x1FA70 && cp <= 0x1FAFF)
+                || (cp >= 0x1F1E6 && cp <= 0x1F1FF);
     }
-
 }
