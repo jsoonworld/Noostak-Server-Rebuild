@@ -7,6 +7,9 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode
 public class MemberProfileImageKey {
 
+    private static final String DEFAULT_KEY = "default/profile.png";
+    public static final MemberProfileImageKey DEFAULT = new MemberProfileImageKey(DEFAULT_KEY, false);
+
     private final String value;
 
     protected MemberProfileImageKey() {
@@ -14,7 +17,13 @@ public class MemberProfileImageKey {
     }
 
     private MemberProfileImageKey(String value) {
-        validate(value);
+        this(value, true);
+    }
+
+    private MemberProfileImageKey(String value, boolean validate) {
+        if (validate) {
+            validate(value);
+        }
         this.value = value;
     }
 
@@ -22,21 +31,24 @@ public class MemberProfileImageKey {
         return new MemberProfileImageKey(value);
     }
 
+    public static MemberProfileImageKey fromOrDefault(String value) {
+        if (value == null || value.isBlank()) {
+            return DEFAULT;
+        }
+        return new MemberProfileImageKey(value);
+    }
+
     public String value() {
         return value;
     }
 
-    private void validate(String value) {
-        validateNotNullOrBlank(value);
+    public boolean isDefault() {
+        return DEFAULT_KEY.equals(this.value);
     }
 
-    private void validateNotNullOrBlank(String value) {
-        if (value == null) {
-            throw new IllegalArgumentException("프로필 이미지 키는 null 일 수 없습니다.");
-        }
-
-        if (value.isBlank()) {
-            throw new IllegalArgumentException("프로필 이미지 키는 빈 문자열 일 수 없습니다.");
+    private void validate(String value) {
+        if (value == null || value.isBlank()) {
+            throw new IllegalArgumentException("프로필 이미지 키는 null 또는 빈 문자열일 수 없습니다.");
         }
     }
 }
