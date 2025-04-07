@@ -1,4 +1,4 @@
-package com.noostak.rebuild.member;
+package com.noostak.rebuild.member.enums;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
