@@ -22,17 +22,21 @@ public class MemberName {
         return new MemberName(value);
     }
 
-    private void validate(String value) {
-        validateBlank(value);
+    public String value() {
+        return value;
     }
 
-    private void validateBlank(String value) {
+    private void validate(String value) {
+        validateNotNullOrBlank(value);
+    }
+
+    private void validateNotNullOrBlank(String value) {
+        if (value == null) {
+            throw new IllegalArgumentException("이름은 null 일 수 없습니다.");
+        }
+
         if (value.isBlank()) {
             throw new IllegalArgumentException("이름은 공백으로만 구성될 수 없습니다.");
         }
-    }
-
-    public String value() {
-        return value;
     }
 }
