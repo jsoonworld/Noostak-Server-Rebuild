@@ -8,21 +8,6 @@ jobs:
   ci:
     runs-on: ubuntu-22.04
 
-    services:
-      postgres:
-        image: postgres:13
-        env:
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
     steps:
       - name: 체크아웃
         uses: actions/checkout@v3
@@ -43,24 +28,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Create application.yml
-        run: |
-          mkdir -p src/main/resources src/test/resources
-          cat <<EOF > src/main/resources/application.yml
-${{ secrets.APPLICATION_YML }}
-EOF
-          cp src/main/resources/application.yml src/test/resources/application.yml
-
-      - name: Wait for PostgreSQL
-        run: |
-          for i in {1..10}; do
-            nc -z localhost 5432 && echo "✅ PostgreSQL is ready!" && break
-            echo "⏳ Waiting for PostgreSQL..."
-            sleep 3
-          done
-
       - name: Gradle Build & Test
         run: |
           chmod +x gradlew
           ./gradlew build
-        working-directory: .
