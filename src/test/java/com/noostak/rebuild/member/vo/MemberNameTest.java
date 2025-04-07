@@ -85,5 +85,26 @@ class MemberNameTest {
 
             assertThat(memberName.value()).isEqualTo(validName);
         }
+
+        @ParameterizedTest
+        @DisplayName("이름에 다양한 이모지가 포함된 경우 성공적으로 생성된다.")
+        @ValueSource(strings = {
+                "😊",
+                "🚀",
+                "❤️",
+                "🔥수",
+                "🌟리",
+                "😎글",
+                "💡수",
+                "🐱범",
+                "🎉동",
+                "🍕수"
+        })
+        void createMemberNameWithEmoji(String validName) {
+            MemberName memberName = MemberName.from(validName);
+            assertThat(memberName.value()).isEqualTo(validName);
+        }
+
+
     }
 }
