@@ -56,11 +56,12 @@ public class MemberName {
             throw new IllegalArgumentException("특수문자는 이름 구성에 포함될 수 없습니다.");
         }
 
-        for (int cp : value.codePoints().toArray()) {
-            if (isInvalidCharacter(cp)) {
-                throw new IllegalArgumentException("허용되지 않은 문자가 포함되어 있습니다.");
-            }
-        }
+        value.codePoints()
+                .filter(this::isInvalidCharacter)
+                .findFirst()
+                .ifPresent(cp -> {
+                    throw new IllegalArgumentException("허용되지 않은 문자가 포함되어 있습니다.");
+                });
     }
 
     private boolean isInvalidCharacter(int cp) {
