@@ -3,6 +3,7 @@ package com.noostak.rebuild.member.enums;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.assertj.core.api.Assertions.*;
@@ -34,12 +35,13 @@ class MemberAccountStatusTest {
 
         @ParameterizedTest
         @DisplayName("null 입력 시 예외가 발생한다")
-        @ValueSource(strings = {""})
-        void from_Null_ThrowsException() {
-            assertThatThrownBy(() -> MemberAccountStatus.from(null))
+        @NullSource
+        void from_Null_ThrowsException(String input) {
+            assertThatThrownBy(() -> MemberAccountStatus.from(input))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageContaining("계정 상태는 null 일 수 없습니다.");
         }
+
     }
 
     @Nested
