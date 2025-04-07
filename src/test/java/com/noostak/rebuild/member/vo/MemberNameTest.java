@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 @DisplayName("멤버 이름 테스트")
@@ -32,13 +33,37 @@ class MemberNameTest {
                     .hasMessageContaining("이름은 null 일 수 없습니다.");
         }
 
-        @Test
+        @ParameterizedTest
         @DisplayName("이름이 10자를 초과하는 경우 예외가 발생한다.")
+        @ValueSource(strings = {"0123467891", "01234567890123456789", "한글과영문혼합길이초과abcde"})
         void nameLengthExceeded() {
             String invalidName = "01234567891";
             assertThatThrownBy(() -> MemberName.from(invalidName))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageContaining("이름은 10자를 초과할 수 없습니다.");
+        }
+    }
+
+    @Nested
+    @DisplayName("성공 케이스")
+    class SuccessCases {
+
+        @Test
+        @DisplayName("이름이 공백을 포함하여 10자 이하인 경우 성공적으로 생성된다.")
+        void createMemberNameSuccessfully() {
+            String validName = "j        0";
+            MemberName memberName = MemberName.from(validName);
+
+            assertThat(memberName.value()).isEqualTo(validName);
+        }
+
+        @Test
+        @DisplayName("이름이 10자 이하인 경우 성공적으로 생성된다.")
+        void createMemberNameWithValidLength() {
+            String validName = "jsoonworld";
+            MemberName memberName = MemberName.from(validName);
+
+            assertThat(memberName.value()).isEqualTo(validName);
         }
     }
 }
