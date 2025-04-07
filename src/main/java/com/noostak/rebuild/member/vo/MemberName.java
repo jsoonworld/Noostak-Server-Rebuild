@@ -7,6 +7,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode
 public class MemberName {
 
+    private static final int MAX_LENGTH = 10;
+
     private final String value;
 
     protected MemberName() {
@@ -28,6 +30,7 @@ public class MemberName {
 
     private void validate(String value) {
         validateNotNullOrBlank(value);
+        validateLength(value);
     }
 
     private void validateNotNullOrBlank(String value) {
@@ -37,6 +40,12 @@ public class MemberName {
 
         if (value.isBlank()) {
             throw new IllegalArgumentException("이름은 공백으로만 구성될 수 없습니다.");
+        }
+    }
+
+    private void validateLength(String value) {
+        if (value.length() > MAX_LENGTH) {
+            throw new IllegalArgumentException("이름은 10자를 초과할 수 없습니다.");
         }
     }
 }
