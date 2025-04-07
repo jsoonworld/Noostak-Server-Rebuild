@@ -122,6 +122,14 @@ class MemberNameTest {
             assertThat(memberName.value()).isEqualTo(validName);
         }
 
-
+        @ParameterizedTest
+        @DisplayName("이름에 한글, 영문, 숫자가 포함된 경우 성공적으로 생성된다.")
+        @ValueSource(strings = {
+                "권장순", "James", "홍James", "김0순", "kim99", "김Soon9", "so on 9", "이름123", "Name 0"
+        })
+        void createMemberNameWithKoreanEnglishNumber(String validName) {
+            MemberName memberName = MemberName.from(validName);
+            assertThat(memberName.value()).isEqualTo(validName);
+        }
     }
 }

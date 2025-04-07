@@ -53,7 +53,30 @@ public class MemberName {
 
     private void validateCharacter(String value) {
         if (value.matches(SPECIAL_LETTERS)) {
-            throw new IllegalArgumentException("특수문자는 이름 구성에 포함시킬 수 없습니다.");
+            throw new IllegalArgumentException("특수문자는 이름 구성에 포함될 수 없습니다.");
+        }
+
+        for (int cp : value.codePoints().toArray()) {
+            if (isInvalidCharacter(cp)) {
+                throw new IllegalArgumentException("허용되지 않은 문자가 포함되어 있습니다.");
+            }
         }
     }
+
+    private boolean isInvalidCharacter(int cp) {
+        return !(isKorean(cp) || isEnglish(cp) || Character.isDigit(cp) || Character.isSpaceChar(cp) || isEmoji(cp));
+    }
+
+    private boolean isKorean(int cp) {
+        return cp >= 0xAC00 && cp <= 0xD7A3;
+    }
+
+    private boolean isEnglish(int cp) {
+        return (cp >= 'a' && cp <= 'z') || (cp >= 'A' && cp <= 'Z');
+    }
+
+    private boolean isEmoji(int cp) {
+        return (cp >= 0x1F300 && cp <= 0x1FAFF) || (cp >= 0x2600 && cp <= 0x26FF);
+    }
+
 }
