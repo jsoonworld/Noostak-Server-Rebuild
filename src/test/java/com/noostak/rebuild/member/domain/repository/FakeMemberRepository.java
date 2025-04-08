@@ -17,11 +17,17 @@ public class FakeMemberRepository implements MemberRepository {
 
     @Override
     public void save(Member member) {
+        if (member == null) {
+            throw new NullPointerException("저장하려는 Member 객체가 null일 수 없습니다.");
+        }
         storage.remove(member);
         storage.add(member);
     }
 
     public Optional<Member> findBy(Member target) {
+        if (target == null) {
+            throw new NullPointerException("조회하려는 Member 객체가 null일 수 없습니다.");
+        }
         return storage.stream()
                 .filter(saved -> saved.equals(target))
                 .findFirst();
