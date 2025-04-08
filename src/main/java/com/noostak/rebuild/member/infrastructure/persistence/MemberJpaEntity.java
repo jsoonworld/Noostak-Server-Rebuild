@@ -5,6 +5,7 @@ import com.noostak.rebuild.member.domain.model.vo.MemberName;
 import com.noostak.rebuild.member.domain.model.vo.MemberProfileImageKey;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -35,5 +36,17 @@ public class MemberJpaEntity {
 
     public static MemberJpaEntity of(MemberName name, MemberProfileImageKey profileImageKey, MemberAccountStatus accountStatus) {
         return new MemberJpaEntity(name, profileImageKey, accountStatus);
+    }
+
+    public MemberName name() {
+        return name;
+    }
+
+    public MemberProfileImageKey profileImageKey() {
+        return profileImageKey;
+    }
+
+    public MemberAccountStatus accountStatus() {
+        return accountStatus;
     }
 }
