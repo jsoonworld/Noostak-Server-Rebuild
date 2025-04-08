@@ -1,14 +1,13 @@
 package com.noostak.rebuild.member.domain.enums;
 
-import com.noostak.rebuild.member.exception.MemberErrorCode;
-import com.noostak.rebuild.member.exception.MemberException;
+import com.noostak.rebuild.member.domain.exception.MemberErrorCode;
+import com.noostak.rebuild.member.domain.exception.MemberException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static com.noostak.rebuild.member.exception.MemberErrorCode.*;
 import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("멤버 계정 상태 테스트")
