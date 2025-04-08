@@ -1,12 +1,13 @@
-package com.noostak.rebuild.member.enums;
+package com.noostak.rebuild.member.domain.enums;
+
+import com.noostak.rebuild.member.exception.MemberErrorCode;
+import com.noostak.rebuild.member.exception.MemberException;
 
 import java.util.Arrays;
 
 public enum MemberAccountStatus {
     ACTIVE("활성"),
     INACTIVE("비활성");
-
-    private static final String INVALID_STATUS_MESSAGE = "존재하지 않는 계정 상태입니다";
 
     private final String value;
 
@@ -19,7 +20,7 @@ public enum MemberAccountStatus {
         return Arrays.stream(values())
                 .filter(status -> status.name().equalsIgnoreCase(value))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(INVALID_STATUS_MESSAGE + ": " + value));
+                .orElseThrow(() -> new MemberException(MemberErrorCode.INVALID_ACCOUNT_STATUS));
     }
 
     public String value() {
@@ -36,10 +37,10 @@ public enum MemberAccountStatus {
 
     private static void validate(String value) {
         if (value == null) {
-            throw new IllegalArgumentException("계정 상태는 null 일 수 없습니다.");
+            throw new MemberException(MemberErrorCode.NULL_ACCOUNT_STATUS);
         }
         if (value.isBlank()) {
-            throw new IllegalArgumentException("계정 상태는 공백일 수 없습니다.");
+            throw new MemberException(MemberErrorCode.BLANK_ACCOUNT_STATUS);
         }
     }
 }
