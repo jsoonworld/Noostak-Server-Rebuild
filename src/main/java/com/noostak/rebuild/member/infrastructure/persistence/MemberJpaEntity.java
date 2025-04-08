@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "members")
-@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberJpaEntity {
 
@@ -37,5 +36,17 @@ public class MemberJpaEntity {
 
     public static MemberJpaEntity of(MemberName name, MemberProfileImageKey profileImageKey, MemberAccountStatus accountStatus) {
         return new MemberJpaEntity(name, profileImageKey, accountStatus);
+    }
+
+    public MemberName name() {
+        return name;
+    }
+
+    public MemberProfileImageKey profileImageKey() {
+        return profileImageKey;
+    }
+
+    public MemberAccountStatus accountStatus() {
+        return accountStatus;
     }
 }
