@@ -5,10 +5,12 @@ import com.noostak.rebuild.member.domain.model.vo.MemberName;
 import com.noostak.rebuild.member.domain.model.vo.MemberProfileImageKey;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "members")
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberJpaEntity {
 
