@@ -1,4 +1,4 @@
-package com.noostak.rebuild.member.exception;
+package com.noostak.rebuild.member.domain.exception;
 
 import com.noostak.rebuild.global.exception.BaseException;
 

@@ -1,7 +1,8 @@
-package com.noostak.rebuild.member.domain.vo;
+package com.noostak.rebuild.member.domain.model.vo;
 
-import com.noostak.rebuild.member.exception.MemberErrorCode;
-import com.noostak.rebuild.member.exception.MemberException;
+import com.noostak.rebuild.member.domain.model.vo.MemberProfileImageKey;
+import com.noostak.rebuild.member.domain.exception.MemberErrorCode;
+import com.noostak.rebuild.member.domain.exception.MemberException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
