@@ -1,7 +1,7 @@
-package com.noostak.rebuild.member.domain.vo;
+package com.noostak.rebuild.member.domain.model.vo;
 
-import com.noostak.rebuild.member.exception.MemberErrorCode;
-import com.noostak.rebuild.member.exception.MemberException;
+import com.noostak.rebuild.member.domain.exception.MemberErrorCode;
+import com.noostak.rebuild.member.domain.exception.MemberException;
 import jakarta.persistence.Embeddable;
 import lombok.EqualsAndHashCode;
 
