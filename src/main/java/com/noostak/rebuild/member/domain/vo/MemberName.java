@@ -1,5 +1,7 @@
-package com.noostak.rebuild.member.vo;
+package com.noostak.rebuild.member.domain.vo;
 
+import com.noostak.rebuild.member.exception.MemberErrorCode;
+import com.noostak.rebuild.member.exception.MemberException;
 import jakarta.persistence.Embeddable;
 import lombok.EqualsAndHashCode;
 
@@ -37,29 +39,28 @@ public class MemberName {
 
     private void validateNotNullOrBlank(String value) {
         if (value == null) {
-            throw new IllegalArgumentException("이름은 null 일 수 없습니다.");
+            throw new MemberException(MemberErrorCode.NULL_MEMBER_NAME);
         }
 
         if (value.isBlank()) {
-            throw new IllegalArgumentException("이름은 공백으로만 구성될 수 없습니다.");
+            throw new MemberException(MemberErrorCode.BLANK_MEMBER_NAME);
         }
     }
 
     private void validateLength(String value) {
         if (value.length() > MAX_LENGTH) {
-            throw new IllegalArgumentException("이름은 10자를 초과할 수 없습니다.");
+            throw new MemberException(MemberErrorCode.TOO_LONG_MEMBER_NAME);
         }
     }
 
     private void validateCharacter(String value) {
         if (value.matches(SPECIAL_CHAR_PATTERN)) {
-            throw new IllegalArgumentException("특수문자는 이름 구성에 사용될 수 없습니다.");
+            throw new MemberException(MemberErrorCode.SPECIAL_CHAR_IN_MEMBER_NAME);
         }
 
         for (int cp : value.codePoints().toArray()) {
             if (isInvalidCharacter(cp)) {
-                String invalidChar = new String(Character.toChars(cp));
-                throw new IllegalArgumentException("이름에 허용되지 않은 문자(" + invalidChar + ")가 포함되어 있습니다.");
+                throw new MemberException(MemberErrorCode.INVALID_CHAR_IN_MEMBER_NAME);
             }
         }
     }

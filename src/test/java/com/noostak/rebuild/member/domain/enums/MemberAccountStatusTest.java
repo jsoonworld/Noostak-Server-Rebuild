@@ -1,11 +1,14 @@
-package com.noostak.rebuild.member.enums;
+package com.noostak.rebuild.member.domain.enums;
 
+import com.noostak.rebuild.member.exception.MemberErrorCode;
+import com.noostak.rebuild.member.exception.MemberException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import static com.noostak.rebuild.member.exception.MemberErrorCode.*;
 import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("멤버 계정 상태 테스트")
@@ -20,17 +23,17 @@ class MemberAccountStatusTest {
         @ValueSource(strings = {"DEACTIVATED", "BLOCKED", "SLEEP", "탈퇴"})
         void from_InvalidStatus_ThrowsException(String invalidStatus) {
             assertThatThrownBy(() -> MemberAccountStatus.from(invalidStatus))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageContaining("존재하지 않는 계정 상태입니다");
+                    .isInstanceOf(MemberException.class)
+                    .hasMessageContaining(MemberErrorCode.INVALID_ACCOUNT_STATUS.getRawMessage());
         }
 
         @ParameterizedTest
-        @DisplayName("공백 또는 null 상태값 입력 시 예외가 발생한다")
+        @DisplayName("공백 상태값 입력 시 예외가 발생한다")
         @ValueSource(strings = {" ", "  ", "\n", "\t"})
         void from_BlankStatus_ThrowsException(String blankStatus) {
             assertThatThrownBy(() -> MemberAccountStatus.from(blankStatus))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageContaining("계정 상태는 공백일 수 없습니다.");
+                    .isInstanceOf(MemberException.class)
+                    .hasMessageContaining(MemberErrorCode.BLANK_ACCOUNT_STATUS.getRawMessage());
         }
 
         @ParameterizedTest
@@ -38,10 +41,9 @@ class MemberAccountStatusTest {
         @NullSource
         void from_Null_ThrowsException(String input) {
             assertThatThrownBy(() -> MemberAccountStatus.from(input))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageContaining("계정 상태는 null 일 수 없습니다.");
+                    .isInstanceOf(MemberException.class)
+                    .hasMessageContaining(MemberErrorCode.NULL_ACCOUNT_STATUS.getRawMessage());
         }
-
     }
 
     @Nested
