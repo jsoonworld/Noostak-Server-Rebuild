@@ -43,7 +43,7 @@ class SocialAuthTypeTest {
         void invalidSocialAuthType(String input) {
             assertThatThrownBy(() -> SocialAuthType.from(input))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageContaining("존재 하지 않는 소셜 로그인 타입입니다.");
+                    .hasMessageContaining("존재하지 않는 소셜 로그인 타입입니다.");
         }
 
         @Test
@@ -51,7 +51,7 @@ class SocialAuthTypeTest {
         void nullInput() {
             assertThatThrownBy(() -> SocialAuthType.from(null))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageContaining("존재 하지 않는 소셜 로그인 타입입니다.");
+                    .hasMessageContaining("존재하지 않는 소셜 로그인 타입입니다.");
         }
     }
 }

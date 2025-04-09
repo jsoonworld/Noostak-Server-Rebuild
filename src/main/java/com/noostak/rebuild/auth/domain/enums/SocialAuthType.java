@@ -20,6 +20,6 @@ public enum SocialAuthType {
         return Arrays.stream(values())
                 .filter(type -> type.provider.equalsIgnoreCase(givenProvider))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("존재 하지 않는 소셜 로그인 타입입니다."));
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 소셜 로그인 타입입니다."));
     }
 }
